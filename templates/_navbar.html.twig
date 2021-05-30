@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
+    <div class="container">
+        <div class="col-2 d-flex justify-content-start">
+            <a class="navbar-brand" href="{{ path('home') }}">
+                <img class="logo" src="{{ asset('img/logo2.jpg') }}" alt="Charcuterie Pierre Schmidt">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a href="{{ path('admin') }}" class="nav-link">Administration</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a href="{{ path('order_list') }}" class="nav-link">Commandes</a>
+                        </li>
+                    {% endif %}
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a href="{{ path('app_logout') }}" class="nav-link">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ path('app_login') }}" class="nav-link">Connexion</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{{ path('user_new') }}" class="nav-link">Inscription</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

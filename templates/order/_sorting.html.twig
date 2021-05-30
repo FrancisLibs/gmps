@@ -1,0 +1,10 @@
+<tr>
+    <th scope="col">{{ knp_pagination_sortable(orders, 'Numéro', 'o.orderNumber') }}</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Date', 'o.createdAt') }}</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Fournisseur', 'p.username') }}</th>
+    <th scope="col" class="text-center">Designation</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Utilisateur', 'u.username') }}</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Montant', 'o.expectedAmount') }}</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Date Livraison', 'o.expectedDeliveryDate') }}</th>
+    <th scope="col" class="text-center">{{ knp_pagination_sortable(orders, 'Statut', 'o.status') }}</th>
+</tr>

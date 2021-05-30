@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container accueil">
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mt-5">
+                                <div class="col-6 mb-3">
+                                    <h3>Commandes en cours...</h3>
+                                </div>
+                            <div class="col-10">
+                                <a class="col-6 btn btn-primary btn-sm" href="{{ path('order_new') }}" role="button">Nouvelle commande</a>
+                                <a class="col-4 btn btn-primary btn-sm" href="{{ path('order_list') }}" role="button">Liste</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'order/_condensedOrderList.html.twig' with {orders: orders} only %}
+                {{ knp_pagination_render(orders) }}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

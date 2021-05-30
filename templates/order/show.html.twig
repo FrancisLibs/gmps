@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande {{ order.orderNumber }}{% endblock %}
+
+{% block body %}
+    <div class="container accueil mt-3">
+        <div class="row">
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-7">
+                        <h4 class="titreShowOrder text-center p-1">
+                            Commande
+                            {% set array = [] %}
+                            {% for account in order.account %}
+                                {% set array = array|merge([ account.letter ]) %}                             
+                            {% endfor %}
+                            R2{{ array|join("") }}40-{{ order.orderNumber }}
+                        </h4>
+                    </div>
+                    <div class="col-3">
+                        <a href="{{ path('order_edit', { 'id': order.id } ) }}" type='button' class="btn btn-success">Modification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="row mt-3">
+                    <div class="col-4"><strong>Fournisseur : {{ order.provider.username }}</strong></div>
+                    <div class="col-5"><strong>Désignation : </strong>{{ order.designation }}</div>
+                    <div class="col-3"><strong>Montant : </strong>{{ order.expectedAmount }}</div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-4"><strong>Date de commande : </strong>{{ order.createdAt | date("d/m/Y") }}</div>
+                    <div class="col-5"><strong>Date livraison prévue : </strong>{{ order.expectedDeliveryDate | date("d/m/Y") }}</div>
+                    <div class="col-3"><strong>Statut : </strong>{{ order.textStatus }}</div>
+                </div>
+            </div>
+        </div>
+        
+        {# Bon de livraison et factures #}
+        <div class="row">
+            <div class="col-5">
+                <div class="d-flex">
+                    <h2 class="subTitleShowOrder col-5">Bons de livraison</h2>
+                    <a class="btn btn-primary btn-sm" href="{{ path('delivery_form_new', { 'id': order.id }) }}" role="button">Ajout BL</a>
+                </div>
+                {% for deliveryForm in order.deliveryForms %}
+                    <div class="row mt-3">
+                        <div class="border border-secondary rounded">
+                            
+                                <p><strong>Numéro : </strong>{{ deliveryForm.deliveryFormNumber }}</p>
+                                <p><strong>Date : </strong>{{ deliveryForm.deliveryFormDate | date("d/m/Y") }}</p>
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-6 offset-1">
+                <div class="d-flex">
+                    <h2 class="subTitleShowOrder col-3">Factures</h2>
+                    <a class="btn btn-primary btn-sm" href="{{ path('order_new') }}" role="button">Ajout Facture</a>
+                </div>
+                <div class="mt-2">
+                    {% for invoice in order.invoice %}
+                        <div class="border border-secondary rounded mb-2 p-2">
+                            <div class="row mt-3">
+                                <div class="col-4">
+                                    <p><strong>Numéro : </strong>{{ invoice.invoiceNumber }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <p><strong>Date : </strong>{{ invoice.invoiceDate | date("d/m/Y") }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <p><strong>Montant : </strong>{{ invoice.amount }}€</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>Bon de livraison : </h5>
+                            </div>
+                            {% for deliveryForm in invoice.deliveryForms %}
+                                <div>
+                                    <p>Numéro : {{ deliveryForm.deliveryFormNumber}} Date : {{ deliveryForm.deliveryDate | date("d/m/Y") }}
+                                </div>
+                            {% else %}
+                                    <p>Aucun bon de livraison enregistré</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Aucun facture enregistrée</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

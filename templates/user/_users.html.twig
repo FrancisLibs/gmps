@@ -1,0 +1,27 @@
+{% for user in users %}
+    <tr>
+        <th scope="row">
+            <a href="{{ path('user_edit', { 'id': user.id }) }}">
+               {{ user.username}}
+            </a>
+        </th>
+        <td class="text-center">
+            {% if user.roles | length > 1 %}
+                {% for role in user.roles %} 
+                    {{ role }}
+                    {% if not loop.last %}
+                        -
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% for role in user.roles %} 
+                    {{ role }}
+                {% endfor %}
+            {% endif %}
+        </td>
+        <td class="text-center">{{ user.email }}</td>
+        <td class="text-center">{{ user.phoneNumber }}</td>
+        <td class="text-center">{{ user.firstName }}</td>
+        <td class="text-center">{{ user.lastName }}</td>
+    </tr>
+{% endfor %}

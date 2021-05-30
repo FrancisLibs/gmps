@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commandes{% endblock %}
+
+{% block body %}
+    <main class="mt-4 js-filter">
+        <div class="row">
+            <aside class="col-2">
+                {% include 'order/_filter.html.twig' with {form: form} only %}
+            </aside>
+            <article class="col-10">
+                <div class="row">
+                    <div class="col-3">
+                        <h3>Liste des Commandes</h3>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary btn-sm" href="{{ path('order_new') }}" role="button">Nouvelle commande</a>
+                    </div>
+                    {# <div class="col-1 offset-6">
+                        {% if options.displayOrderList %}
+                            <a href="{{ path('toggle_order_display', { id: options.id }) }}"><img class="orderDisplay" src="{{ asset('img/carte.png') }}" alt="carte"></a>
+                        {% else %}
+                            <a href="{{ path('toggle_order_display', { id: options.id } ) }}"><img class="orderDisplay" src="{{ asset('img/liste.png') }}" alt="liste"></a>
+                        {% endif %} 
+                    </div> #}
+                </div>
+                <div>
+                    {% include 'order/_orderList.html.twig' with {orders: orders} only %}
+                </div>
+                <div class="js-filter-pagination">
+                    {% include 'order/_pagination.html.twig' %}
+                </div>
+            </article>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+<div class="row">
+    <div>
+        <thead class="js-filter-sorting">
+            {% include 'order/_sorting.html.twig' %}
+        </thead>
+        {% for order in orders %}
+            <div class="card card-style">
+                <h5 class="card-header">
+                    <a href="{{ path('order_show', { 'id': order.id }) }}">
+                        {% set array = [] %}
+                        {% for account in order.account %}
+                            {% set array = array|merge([ account.letter ]) %}                             
+                        {% endfor %}
+                        R2{{ array|join("") }}40-{{ order.orderNumber }}
+                    </a>
+                </h5>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        Date commande : {{ order.createdAt|date("m/d/Y") }}
+                    </h6>
+                    <h6>Fournisseur : {{ order.provider.username }}</h6>
+                    
+                    <h6>Objet: {{ order.designation }}</h6>
+                    <h6>Auteur : {{ order.user.firstName|first ~ order.user.lastName|first }}</h6>
+                    <h6>Montant : {{ order.expectedAmount }}</h6>
+                    <h6>livraison : {{ order.expectedDeliveryDate|date("m/d/Y") }}</h6>
+                    <h6>Statut : {{ order.textStatus }}</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

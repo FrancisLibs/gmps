@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout bulletin de livraison{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Ajout BL</h1>
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <div class="row">
+                    <div class="mt-5 mb-3"><strong>Commande N° 
+                        {% set array = [] %}
+                        {% for account in order.account %}
+                            {% set array = array|merge([ account.letter ]) %}                             
+                        {% endfor %}
+                        R2{{ array|join("") }}40-{{ order.orderNumber }} : </strong>
+                        <span>Ajout bon de livraison</span>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    {{ form_start(form) }}
+                        <div>
+                            <div class="row">
+                                {{ form_label(form.deliveryFormNumber) }}
+                                {{ form_widget(form.deliveryFormNumber) }}
+                            </div>
+                            <div class="row mb-3">
+                                {{ form_label(form.deliveryFormDate) }}
+                                {{ form_widget(form.deliveryFormDate) }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            {{ form_widget(form.validation) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
