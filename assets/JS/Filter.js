@@ -36,20 +36,24 @@ export class Filter {
         e.target.parentNode.parentNode.childNodes[1].children[0].firstChild
           .nodeName;
       let champAReseter = e.target.parentNode.parentNode;
+      //console.log(champAReseter);
       let nomDuChampAReseter = "";
 
       switch (typeChamp) {
         case "SELECT":
-          // reset du champ de recherche
+          // reset du champ de recherche SELECT
           champAReseter = champAReseter.querySelector("select");
           nomDuChampAReseter = champAReseter.getAttribute("name");
           champAReseter.selectedIndex = 0;
           break;
-        case "input":
+        case "INPUT":
+          // reset du champ de recherche INPUT
+          champAReseter = champAReseter.querySelector("input");
+          console.log(champAReseter);
+          nomDuChampAReseter = champAReseter.getAttribute("name");
+          champAReseter.value = "";
           break;
       }
-
-      
 
       // Appel de la fonction de mise à jour de l'écran
       let newUrl = new URL(window.location);
