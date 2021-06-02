@@ -30,6 +30,40 @@ export class Filter {
       }
     };
 
+    const resetField = (e) => {
+      e.preventDefault();
+      const typeChamp =
+        e.target.parentNode.parentNode.childNodes[1].children[0].firstChild
+          .nodeName;
+      let champAReseter = e.target.parentNode.parentNode;
+      let nomDuChampAReseter = "";
+
+      switch (typeChamp) {
+        case "SELECT":
+          // reset du champ de recherche
+          champAReseter = champAReseter.querySelector("select");
+          nomDuChampAReseter = champAReseter.getAttribute("name");
+          champAReseter.selectedIndex = 0;
+          break;
+        case "input":
+          break;
+      }
+
+      
+
+      // Appel de la fonction de mise à jour de l'écran
+      let newUrl = new URL(window.location);
+      let params = new URLSearchParams(window.location.search);
+      params.set(nomDuChampAReseter, "");
+      newUrl.search = params.toString();
+      this.loadUrl(newUrl);
+    };
+
+    const resetButton = this.form.querySelectorAll(".resetBtn");
+    resetButton.forEach((button) => {
+      button.addEventListener("click", resetField);
+    });
+
     this.sorting.addEventListener("click", aClickListener);
     this.pagination.addEventListener("click", aClickListener);
 
