@@ -41,7 +41,7 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Renvoie les commandes en reatard
+     * Retourne les commandes en reatard
      * 
     * @return Orders[] Returns an array of Order objects
     */
@@ -49,7 +49,7 @@ class OrderRepository extends ServiceEntityRepository
     {        
         $nowDate = new \DateTime('now');
         return $this->createQueryBuilder('o')            
-            ->andWhere('o.expectedDeliveryDate > :nowDate')
+            ->andWhere('o.expectedDeliveryDate < :nowDate')
             ->setParameter('nowDate', $nowDate )
             ->getQuery()
             ->getResult()

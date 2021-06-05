@@ -3,7 +3,7 @@
 {% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
-    <main class="mt-4 js-user-filter">
+    <main class="mt-4 user-js-filter">
         <div class="row">
             <aside class="col-2">
                 {% include 'user/_filter.html.twig' with {form: form} only %}
@@ -20,7 +20,7 @@
                 <div >
                     {% include 'user/_userList.html.twig' with {users: users} only %}
                 </div>
-                <div class="js-user-filter-pagination">
+                <div class="js-filter-pagination">
                     {% include 'user/_pagination.html.twig' %}
                 </div>
             </article>

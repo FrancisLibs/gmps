@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container accueil mt-3">
         <div class="row">
-            <div class="col-5">
+            <div class="col-7">
                 <div class="row">
                     <div class="col-7">
                         <h4 class="titreShowOrder text-center p-1">
@@ -17,8 +17,10 @@
                             R2{{ array|join("") }}40-{{ order.orderNumber }}
                         </h4>
                     </div>
-                    <div class="col-3">
+                    <div class="col-5">
                         <a href="{{ path('order_edit', { 'id': order.id } ) }}" type='button' class="btn btn-success">Modification</a>
+                        <a href="{{ path('order_list' ) }}" type='button' class="btn btn-primary">Retour à la liste</a>
+                  
                     </div>
                 </div>
             </div>

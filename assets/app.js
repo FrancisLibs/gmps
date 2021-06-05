@@ -12,7 +12,7 @@ import "./styles/app.css";
 import "./bootstrap";
 
 import { Filter } from "./JS/Filter";
-//import { UserFilter } from "./JS/UserFilter";
+import { UserFilter } from "./JS/UserFilter";
 
-new Filter(document.querySelector(".js-filter"));
-//new UserFilter(document.querySelector(".js-user-filter"));
+new Filter(document.querySelector(".order-js-filter"));
+new UserFilter(document.querySelector(".user-js-filter"));

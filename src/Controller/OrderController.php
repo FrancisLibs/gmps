@@ -47,9 +47,9 @@ class OrderController extends AbstractController
         $orders = $this->orderRepository->findSearch($data);
         if($request->get('ajax')){
             return new JsonResponse([
-                'content'   =>  $this->renderView('order/_orders.html.twig', ['orders' => $orders]),
-                'sorting'   =>  $this->renderView('order/_sorting.html.twig', ['orders' => $orders]),
-                'pagination'   =>  $this->renderView('order/_pagination.html.twig', ['orders' => $orders]),
+                'content'       =>  $this->renderView('order/_orders.html.twig', ['orders' => $orders]),
+                'sorting'       =>  $this->renderView('order/_sorting.html.twig', ['orders' => $orders]),
+                'pagination'    =>  $this->renderView('order/_pagination.html.twig', ['orders' => $orders]),
             ]);
         }
         return $this->render('order/list.html.twig', [
@@ -123,7 +123,7 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($order);
             $manager->flush();
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('order_list');
         }
 
         return $this->render('order/create.html.twig', [
