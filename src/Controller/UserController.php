@@ -6,18 +6,16 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Data\SearchUser;
 use App\Form\SearchUserForm;
-use Doctrine\ORM\EntityManager;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as extraSecurity;
 
 class UserController extends AbstractController
 {
@@ -35,12 +33,13 @@ class UserController extends AbstractController
     /**
      * Users list
      * 
-     * @Route("/admin/users/index", name="user_list")
+     * @Route("/admin/user/index", name="user_list")
+     * @extraSecurity("is_granted('ROLE_ADMIN')")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
      */
-    public function userList(Request $request, PaginatorInterface $paginator)
+    public function userList(Request $request)
     {    
         $data = new SearchUser();
         $data->page = $request->get('page', 1);
@@ -81,8 +80,10 @@ class UserController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
-            if ($this->security->isGranted('ROLE_ADMIN')) {
-                return $this->redirectToRoute('admin_user_list');
+
+            if($this->security->isGranted('ROLE_ADMIN')) 
+            {
+                return $this->redirectToRoute('user_list');
             }
             return $this->redirectToRoute('home');
         }
@@ -95,9 +96,9 @@ class UserController extends AbstractController
      * Delete user
      *
      * @Route("/user/{id}/delete", name="user_delete", methods="DELETE")
+     * @extraSecurity("is_granted('ROLE_ADMIN')")
      * @param                      User $user
      * @return                     RedirectResponse
-     * @IsGranted("ROLE_ADMIN")
      */
     public function userDelete(User $user, Request $request)
     {
@@ -108,7 +109,7 @@ class UserController extends AbstractController
                 $this->manager->remove($user);
                 $this->manager->flush();
                 $this->addFlash('success', 'L\'utilisateur a bien été supprimé.');
-                return $this->redirectToRoute('admin_user_list');
+                return $this->redirectToRoute('user_list');
             }
 
             if ($user == $currentUser) {
@@ -116,14 +117,16 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('admin_user_list');
             }
         }
+
         $this->addFlash('error', 'L\'utilisateur n\'a pas été supprimé.');
         return $this->redirectToRoute('admin_user_list');
     }
 
     /**
-     * Edition d'un utilisateur
+     * Edit user
      * 
      * @Route("/user/{id}/edit", name="user_edit")
+     * @extraSecurity("is_granted('ROLE_ADMIN')")
      * @param  User $user
      * @param  Request $request
      * @param  EntityManagerInterface $manager
@@ -141,6 +144,7 @@ class UserController extends AbstractController
             $this->addFlash('success', "L'utilisateur a bien été modifié.");
             return $this->redirectToRoute('user_list');
         }
+
         return $this->render('user/modify.html.twig', [
             'form' => $form->createView()
         ]);

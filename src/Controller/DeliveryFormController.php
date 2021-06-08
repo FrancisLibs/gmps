@@ -17,6 +17,9 @@ class DeliveryFormController extends AbstractController
     /**
      * @Route("/deliveryform/create/{id}", name="delivery_form_new")
      * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
      */
     public function create(int $id, Request $request, OrderRepository $orderRepository, EntityManagerInterface $manager): Response
     {

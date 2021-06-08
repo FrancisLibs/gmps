@@ -11,7 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DefaultController extends AbstractController
 {
     /**
+     * Home page
+     * 
      * @Route("/", name="home")
+     * @return RedirectResponse|Response
      */
     public function index(OrderRepository $orderRepository): Response
     {

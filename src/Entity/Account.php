@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AccountRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,6 +30,12 @@ class Account
     /**
      * @ORM\Column(type="string", length=1)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 1,
+     *      minMessage = "Vous devez indiquer au moins 1 caractère.",
+     *      maxMessage = "Vous devez indiquer 1 caractère au plus."
+     * )
      */
     private $letter;
 

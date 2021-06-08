@@ -11,8 +11,9 @@ import "./styles/app.css";
 // start the Stimulus application
 import "./bootstrap";
 
-import { Filter } from "./JS/Filter";
+import { OrderFilter } from "./JS/OrderFilter";
 import { UserFilter } from "./JS/UserFilter";
 
-new Filter(document.querySelector(".order-js-filter"));
+new OrderFilter(document.querySelector(".order-js-filter"));
 new UserFilter(document.querySelector(".user-js-filter"));
+

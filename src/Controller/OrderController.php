@@ -33,8 +33,11 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Order list
+     * 
      * @Route("/order/list", name="order_list")
      * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
      */
     public function index(Request $request) : Response
     {
@@ -61,8 +64,11 @@ class OrderController extends AbstractController
     }
 
     /**
+     * In progress order
+     * 
      * @Route("/order/processed", name="order_in_progress")
      * @Security("is_granted('ROLE_USER')")
+     * @return RedirectResponse|Response
      */
     public function orderInProgress(): Response
     {
@@ -74,8 +80,13 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Create Order
+     * 
      * @Route("/order/create", name="order_new")
      * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
      */
     public function orderCreate(Request $request, EntityManagerInterface $manager): Response
     {
@@ -102,8 +113,11 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Show order
+     * 
      * @Route("/order/{id}", name="order_show")
      * @Security("is_granted('ROLE_USER')")
+     * @return RedirectResponse|Response
      */
     public function show(Order $order): Response
     {
@@ -113,8 +127,14 @@ class OrderController extends AbstractController
     }
 
     /**
+     * Edit order
+     * 
      * @Route("/order/{id}/edit", name="order_edit")
      * @Security("is_granted('ROLE_USER')")
+     * @param Order $order
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
      */
     public function edit(Order $order, Request $request, EntityManagerInterface $manager): Response
     {

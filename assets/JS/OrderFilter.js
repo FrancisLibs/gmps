@@ -4,7 +4,7 @@
  * @property {HTMLElement} sorting
  * @property {HTMLFormElement} form
  */
-export class Filter {
+export class OrderFilter {
   /**
    * @param {HTMLElement|null} element
    */

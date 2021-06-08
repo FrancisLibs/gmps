@@ -14,6 +14,10 @@ class OptionController  extends AbstractController
 {
     /**
      * @Route("/order/{id}/toggleDisplay", name="toggle_order_display")
+     * @param Option $option
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
      */
     public function index(Option $option, OptionRepository $optionRepository, EntityManagerInterface $manager): Response
     {

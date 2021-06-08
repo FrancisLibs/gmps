@@ -3,13 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Order;
-use App\Data\SearchOrder;
+use App\Entity\Account;
 use App\Form\SearchForm;
+use App\Data\SearchOrder;
+use Doctrine\Common\Cache\VoidCache;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Cache\VoidCache;
-use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Order|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,7 +57,6 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
-
     /**
      * 
      * @return Order[] Returns an array of in progress orders objects (status : en cours)
@@ -70,6 +70,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
     /**
      * Récupère les commandes liées à une recherche
      *
@@ -128,7 +129,24 @@ class OrderRepository extends ServiceEntityRepository
             $search->page,
             15
         );
-
     }
 
+    /**
+     * Compte le nombre de commande avec un certain compte
+     * pour vérifier s'il est possible d'effacer le compte
+     *
+     * @param SearchData $search
+     * @return PaginationInterface
+     */
+    public function countOrder($accountId)
+    {
+        return $this->createQueryBuilder('o')
+            ->select('count(o.id)')
+            ->leftJoin('o.account' , 'a')
+            ->where('a.id = :accountId')
+            ->setParameter('accountId', $accountId)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 }
