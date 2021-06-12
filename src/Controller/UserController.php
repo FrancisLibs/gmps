@@ -157,12 +157,12 @@ class UserController extends AbstractController
 
             if ($user == $currentUser) {
                 $this->addFlash('error', 'Vous ne pouvez pas vous supprimer vous-même');
-                return $this->redirectToRoute('admin_user_list');
+                return $this->redirectToRoute('user_list');
             }
         }
 
         $this->addFlash('error', 'L\'utilisateur n\'a pas été supprimé.');
-        return $this->redirectToRoute('admin_user_list');
+        return $this->redirectToRoute('user_list');
     }
 
     /**

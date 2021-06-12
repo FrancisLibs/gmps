@@ -14,5 +14,5 @@ import "./bootstrap";
 import { OrderFilter } from "./JS/OrderFilter";
 import { UserFilter } from "./JS/UserFilter";
 
-new Filter(document.querySelector(".order-js-filter"));
+new OrderFilter(document.querySelector(".order-js-filter"));
 new UserFilter(document.querySelector(".user-js-filter"));
