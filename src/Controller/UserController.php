@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Option;
 use App\Form\UserType;
 use App\Data\SearchUser;
 use App\Form\SearchUserForm;
+use App\Form\UserInscriptionType;
 use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -22,12 +25,14 @@ class UserController extends AbstractController
     private $encoder;
     private $security;
     private $userRepository;
+    private $manager;
    
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, Security $security, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, Security $security, UserRepository $userRepository)
     {
         $this->encoder = $passwordEncoder;
         $this->security = $security;
         $this->userRepository = $userRepository;
+        $this->manager = $manager;
     }
 
     /**
@@ -53,7 +58,6 @@ class UserController extends AbstractController
                 'pagination'    =>  $this->renderView('user/_pagination.html.twig', ['users' => $users]),
             ]);
         }
-
         return $this->render('user/list.html.twig', [
             'users' => $users,
             'form'  => $form->createView(),
@@ -68,16 +72,19 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
      */
-    public function userCreate(Request $request, EntityManagerInterface $manager)
+    public function userCreate(Request $request)
     {       
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserInscriptionType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) 
         {          
             $user->setPassword($this->encoder->encodePassword($user, 'password'));
-            $manager->persist($user);
-            $manager->flush();
+            $option = new Option();
+            $option->setDisplayOrderList(true);
+            $user->setOptions($option);
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
@@ -93,6 +100,34 @@ class UserController extends AbstractController
     }
 
     /**
+     * Edit user
+     * 
+     * @Route("/user/{id}/edit", name="user_edit")
+     * @extraSecurity("is_granted('ROLE_ADMIN')")
+     * @param  User $user
+     * @param  Request $request
+     * @param  EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
+    public function userEdit(User $user, Request $request): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) 
+        {          
+            $this->manager->persist($user);
+            $this->manager->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été modifié.");
+            return $this->redirectToRoute('user_list');
+        }
+        return $this->render('user/modify.html.twig', [
+            'form'  => $form->createView(),
+            'user'  => $user,
+        ]);
+    }
+    
+    /**
      * Delete user
      *
      * @Route("/user/{id}/delete", name="user_delete", methods="DELETE")
@@ -100,12 +135,20 @@ class UserController extends AbstractController
      * @param                      User $user
      * @return                     RedirectResponse
      */
-    public function userDelete(User $user, Request $request)
+    public function userDelete(User $user, Request $request, OrderRepository $orderRepository)
     {
-        $submittedToken = $request->request->get('token');
+        $token = $request->request->get('token');
         $currentUser = $this->getUser();
-        if ($this->isCsrfTokenValid('delete-user', $submittedToken)) {
+        
+        if ($this->isCsrfTokenValid('delete', $token)) {
             if ($user <> $currentUser) {
+                $order = $orderRepository->countOrderUser($user->getId());
+                if($order > 0){
+                    $this->addFlash('error', "Il n'est pas possible d'effacer cet utilisateur. 
+                    Des commandes lui sont liées");
+                    return $this->redirectToRoute('user_list');
+                }
+
                 $this->manager->remove($user);
                 $this->manager->flush();
                 $this->addFlash('success', 'L\'utilisateur a bien été supprimé.');
@@ -123,30 +166,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * Edit user
-     * 
-     * @Route("/user/{id}/edit", name="user_edit")
+     * Upgrade user
+     *
+     * @Route("/user/{id}/upgrade", name="user_upgrade")
      * @extraSecurity("is_granted('ROLE_ADMIN')")
-     * @param  User $user
-     * @param  Request $request
-     * @param  EntityManagerInterface $manager
-     * @return RedirectResponse
+     * @param                      User $user
+     * @return                     RedirectResponse
      */
-    public function userEdit(User $user, Request $request, EntityManagerInterface $manager): Response
+    public function userUpgrade(User $user, Request $request)
     {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) 
-        {          
-            $manager->persist($user);
-            $manager->flush();
+        $user->setRoles(['ROLE_ADMIN']);
+        $this->manager->persist($user);
+        $this->manager->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié.");
-            return $this->redirectToRoute('user_list');
-        }
+        $this->addFlash('success', "L'utilisateur a bien été promu.");
+        return $this->redirectToRoute('user/modify.html.twig');
 
-        return $this->render('user/modify.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 }

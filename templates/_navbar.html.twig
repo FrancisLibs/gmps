@@ -11,7 +11,7 @@
         </div>
         <div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto align-items-center">
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
                             <a href="{{ path('admin') }}" class="nav-link">Administration</a>
@@ -34,6 +34,10 @@
                     <li class="nav-item">
                         <a href="{{ path('user_new') }}" class="nav-link">Inscription</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ path('user_new') }}" ><img src="{{ asset("images/profilh.png") }}" alt="Profil"></a>
+                    </li>
+
                 </ul>
             </div>
         </div>

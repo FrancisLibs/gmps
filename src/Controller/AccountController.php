@@ -109,7 +109,7 @@ class AccountController extends AbstractController
      */
     public function accountDelete(Account $account, Request $request, OrderRepository $orderRepository): Response
     {
-        $order = $orderRepository->countOrder($account->getId());
+        $order = $orderRepository->countOrderAccount($account->getId());
         if($order > 0){
             $this->addFlash('error', "Il n'est pas possible d'effacer ce compte. Des commandes lui sont liées");
             return $this->redirectToRoute('account_list');

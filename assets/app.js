@@ -6,14 +6,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import "./styles/app.css";
+import './styles/app.css';
 
 // start the Stimulus application
-import "./bootstrap";
-
-import { OrderFilter } from "./JS/OrderFilter";
-import { UserFilter } from "./JS/UserFilter";
-
-new OrderFilter(document.querySelector(".order-js-filter"));
-new UserFilter(document.querySelector(".user-js-filter"));
-
+import './bootstrap';

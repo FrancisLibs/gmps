@@ -135,16 +135,33 @@ class OrderRepository extends ServiceEntityRepository
      * Compte le nombre de commande avec un certain compte
      * pour vérifier s'il est possible d'effacer le compte
      *
-     * @param SearchData $search
-     * @return PaginationInterface
+     * @param $accounId
      */
-    public function countOrder($accountId)
+    public function countOrderAccount($accountId)
     {
         return $this->createQueryBuilder('o')
             ->select('count(o.id)')
             ->leftJoin('o.account' , 'a')
             ->where('a.id = :accountId')
             ->setParameter('accountId', $accountId)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+     * Compte le nombre de commande avec un certain user
+     * pour vérifier s'il est possible d'effacer le user
+     * 
+     * @param $accountd
+     */
+    public function countOrderUser($userId)
+    {
+        return $this->createQueryBuilder('o')
+            ->select('count(o.id)')
+            ->leftJoin('o.user' , 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getSingleScalarResult()
         ;

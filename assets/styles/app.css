@@ -1,41 +1,8 @@
-
-body {
-    background-color: lightgray;
+.logo{
+    width: 100px;
 }
 
-.logo {
-    width: 55%;
-}
-
-.titreShowOrder {
-    border: 1px blue solid;
-    border-radius: 4px;
-    background-color: blue;
-    color: white;
-}
-
-.subTitleShowOrder {
-    font-size : 1.5em;
-}
-
-.filter {
-    display: block;
-    position: sticky;
-}
-
-.filterbtn {
-    width: 100%;
-}
-
-.btnRAZ {
-    margin-left: 6px;
-    margin-top: 4px;
-}
-
-.orderDisplay {
-    width: 48%;
-}
-
-.card-style {
-    width: 180px;
+.filterbtn{
+    width: 186px;
+    margin-right: 6px;
 }
