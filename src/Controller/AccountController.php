@@ -93,7 +93,8 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
         return $this->render('account/modify.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'account'   => $account
         ]);
     }
 

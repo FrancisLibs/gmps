@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création utilisateur{% endblock %}
+{% block title %}Profil{% endblock %}
 {% block header_img %}{% endblock %}
 
 {% block body %}
@@ -8,17 +8,18 @@
         <div class="row justify-content-center">
             <div class="col-7 mt-4 mb-4">
                 <div class="row align-items-center mb-4">
-                    <div class="col-4">
-                        <h1>Inscription</h1>
+                    <div class="col-3">
+                        <h1>Profil</h1>
                     </div>
                     <div class="col-3">
-                        <a class="btn btn-primary btn-sm" href="{{ path('user_list') }}" role="button">Listes des Utilisateurs</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('user_edit', {'id': user.id}) }}" role="button">Modification</a>
                     </div>
                 </div>
                 <div class="row">
             <div class="col-12 mb-4">
-                {% include('user/_userInscriptionForm.html.twig') %}
+                {% include('user/_userProfil.html.twig') %}
             </div>
         </div>
     </div>
+
 {% endblock %}

@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Option;
-use App\Form\UserType;
 use App\Data\SearchUser;
+use App\Form\UserEditType;
 use App\Form\SearchUserForm;
+use App\Form\UserPasswordType;
 use App\Form\UserInscriptionType;
 use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
@@ -103,18 +104,20 @@ class UserController extends AbstractController
      * Edit user
      * 
      * @Route("/user/{id}/edit", name="user_edit")
-     * @extraSecurity("is_granted('ROLE_ADMIN')")
+     * @extraSecurity("is_granted('ROLE_USER')")
      * @param  User $user
      * @param  Request $request
      * @param  EntityManagerInterface $manager
-     * @return RedirectResponse
+     * @return RedirectResponse|Response
      */
     public function userEdit(User $user, Request $request): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) 
-        {          
+
+        if($form->isSubmitted() && $form->isValid())
+        {         
+             
             $this->manager->persist($user);
             $this->manager->flush();
 
@@ -166,21 +169,47 @@ class UserController extends AbstractController
     }
 
     /**
-     * Upgrade user
+     * User profil
      *
-     * @Route("/user/{id}/upgrade", name="user_upgrade")
-     * @extraSecurity("is_granted('ROLE_ADMIN')")
+     * @Route("/user/{id}/profil", name="user_profil")
+     * @extraSecurity("is_granted('ROLE_USER')")
      * @param                      User $user
      * @return                     RedirectResponse
      */
-    public function userUpgrade(User $user, Request $request)
+    public function userProfil(User $user, Request $request)
     {
-        $user->setRoles(['ROLE_ADMIN']);
-        $this->manager->persist($user);
-        $this->manager->flush();
-
-        $this->addFlash('success', "L'utilisateur a bien été promu.");
-        return $this->redirectToRoute('user/modify.html.twig');
-
+        return $this->render('user/profil.html.twig', [
+            'user' => $user
+        ]);
     }
+
+     /**
+     * User profil
+     *
+     * @Route("/user/{id}/changePassword", name="user_password_modification")
+     * @param                      User $user
+     * @return                     RedirectResponse
+     */
+    public function userChangePassword(User $user, Request $request)
+    {
+        $form = $this->createForm(UserPasswordType::class, $user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) 
+        {          
+            $user->setPassword($this->encoder->encodePassword($user, 'password'));
+            $this->manager->persist($user);
+            $this->manager->flush();
+
+            $this->addFlash('success', "Le mot de passe a bien été changé.");
+
+            return $this->redirectToRoute('user_profil');
+        }
+        
+        return $this->render('user/passwordChange.html.twig', [
+            'form'  => $form->createView(),
+            'user'  => $user,
+        ]);
+    }
+
 }

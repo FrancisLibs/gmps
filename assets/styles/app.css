@@ -39,3 +39,8 @@ body {
 .card-style {
     width: 180px;
 }
+
+.profil-font-size {
+    font-size : 1.5rem;
+    color : blue;
+}

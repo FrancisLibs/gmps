@@ -47,7 +47,6 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 6,
-     *      max = 20,
      *      minMessage = "Votre mot de passe doit avoir au moins {{ limit }} charactères"
      * )
      */

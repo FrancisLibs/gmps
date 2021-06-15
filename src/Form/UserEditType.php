@@ -9,9 +9,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
-class UserType extends AbstractType
+class UserEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,9 +22,7 @@ class UserType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Identifiant',
                 'required' => true,
-                'attr' => [
-                    'placeholder' => 'Identifiant...'
-                ],
+                'attr' => ['placeholder' => 'Identifiant...'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
@@ -41,16 +42,16 @@ class UserType extends AbstractType
                 'label' => 'Nom',
                 'attr' => ['placeholder' => 'Nom...'],
                 'required' => true,
-            ])
+            ])    
             ->add('roles', ChoiceType::class, [
-                    'choices' => [
-                        'Utilisateur' => 'ROLE_USER',
-                        'Administrateur' => 'ROLE_ADMIN'
-                    ],
-                    'expanded' => true,
-                    'multiple' => true,
-                    'label' => 'Rôles'
-                ])        
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'label' => 'Rôles'
+            ])           
             ;
     }
 

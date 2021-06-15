@@ -4,29 +4,36 @@
 {% block header_img %}{% endblock %}
 {% block body %}
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-5 mt-5 mb-4">
+        <div class="row justify-content-center">
+            <div class="col-7 mt-5 mb-5">
+                <div class="row align-items-center mb-4">
+                    <div class="col-5">
                         <h3>Ajouter un compte</h3>
                     </div>
-                </div>
-                {{ form_start(form, {'action' : path('account_new')}) }}   
-                    {{ form_label(form.designation) }}
-                    {{ form_widget(form.designation) }}
-                
-                    {{ form_label(form.letter) }}
-                    {{ form_widget(form.letter) }}
-                
-                    {{ form_label(form.accountNumber) }}  
-                    {{ form_widget(form.accountNumber) }}  
-                 
-                    <div class="row justify-content-center">
-                        <div class="col-2 text-center">
-                            <button type="submit" class="btn btn-primary pull-right w-100 mt-3">Valider</button>
-                        </div>
+                    <div class="col-3">
+                        <a class="btn btn-primary btn-sm" href="{{ path('account_list') }}" role="button">Listes des comptes</a>
                     </div>
-                {{ form_end(form) }}
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        {{ form_start(form, {'action' : path('account_new')}) }}   
+                            {{ form_label(form.designation) }}
+                            {{ form_widget(form.designation) }}
+                        
+                            {{ form_label(form.letter) }}
+                            {{ form_widget(form.letter) }}
+                        
+                            {{ form_label(form.accountNumber) }}  
+                            {{ form_widget(form.accountNumber) }}  
+                        
+                            <div class="row justify-content-center">
+                                <div class="col-2 text-center">
+                                    <button type="submit" class="btn btn-primary pull-right w-100 mt-3">Valider</button>
+                                </div>
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

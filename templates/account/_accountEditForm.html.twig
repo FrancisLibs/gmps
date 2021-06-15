@@ -1,0 +1,25 @@
+{{ form_start(form, {'action' : path('account_edit', { 'id': account.id } )}) }}   
+    <div class="row justify-content-center mb-4">
+        <div>
+            {{ form_label(form.designation) }}
+            {{ form_widget(form.designation) }}
+        </div>
+    </div>
+    <div class="row justify-content-center mb-4">
+        <div>
+            {{ form_label(form.letter) }}
+            {{ form_widget(form.letter) }}
+        </div>       
+    </div>
+    <div class="row justify-content-center mb-4">
+        <div>
+            {{ form_label(form.accountNumber) }}
+            {{ form_widget(form.accountNumber) }}
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-3 text-center">
+            <button type="submit" class="btn btn-primary pull-right w-100 mt-3">Valider</button>
+        </div>
+    </div>
+{{ form_end(form) }}

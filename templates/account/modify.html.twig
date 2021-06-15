@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création utilisateur{% endblock %}
+{% block title %}Edition compte{% endblock %}
 {% block header_img %}{% endblock %}
-
 
 {% block body %}
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-2 mt-5 mb-4">
-                <h1 class="text-center">Modification</h1>
+            <div class="col-7 mt-4 mb-4">
+                <div class="row justify-content-center align-items-center mb-4">
+                    <div class="col-3">
+                        <h1>Edition</h1>
+                    </div>
+                    <div class="col-3">
+                        <a class="btn btn-primary btn-sm" href="{{ path('account_list') }}" role="button">Listes des Comptes</a>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center mb-4">
+                    <div class="col-8 mb-4">
+                        {% include('account/_accountEditForm.html.twig') %}
+                    </div>
+                </div>
             </div>
         </div>
-        {% include('user/_userForm.html.twig') %}
     </div>
 {% endblock %}

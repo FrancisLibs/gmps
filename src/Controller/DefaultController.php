@@ -18,9 +18,11 @@ class DefaultController extends AbstractController
      */
     public function index(OrderRepository $orderRepository): Response
     {
+        $user = $this->getUser();
         $orders=$orderRepository->lateOrder(); // Commandes en retard
         return $this->render('default/default.html.twig', [
-            'orders'    =>  $orders
+            'orders'    =>  $orders,
+            'user'      =>  $user
         ]);
     }
 }
